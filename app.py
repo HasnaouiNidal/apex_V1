@@ -13,10 +13,14 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'your_secret_key_here_local_only')
 
 # Database Configuration
+# Database Configuration
 app.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST', 'localhost')
 app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER', 'root')
 app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD', '')
 app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB', 'apex')
+
+# <--- زيد هاد السطر ضروري باش Aiven يخدم
+app.config['MYSQL_PORT'] = int(os.environ.get('MYSQL_PORT', 3306)) 
 
 # Upload Configurations
 app.config['PROFILE_UPLOAD_FOLDER'] = 'static/profile_pics'
