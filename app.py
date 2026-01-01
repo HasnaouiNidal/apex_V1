@@ -20,6 +20,7 @@ app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB', 'apex')
 
 # important line for avein
 app.config['MYSQL_PORT'] = int(os.environ.get('MYSQL_PORT', 3306)) 
+app.config['MYSQL_CUSTOM_OPTIONS'] = {"ssl": {"ca": "/etc/ssl/certs/ca-certificates.crt"}}
 
 # Upload Configurations
 app.config['PROFILE_UPLOAD_FOLDER'] = 'static/profile_pics'
