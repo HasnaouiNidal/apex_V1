@@ -152,6 +152,14 @@ def register():
 
     return render_template('register.html')
 
+# أضف هذا في نهاية ملف app.py لإصلاح الـ BuildError
+@app.route('/members')
+def members():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM users WHERE role='Member'")
+    all_members = cursor.fetchall()
+    cursor.close()
+    return render_template('members.html', members=all_members)
 
 @app.route('/logout')
 def logout():
