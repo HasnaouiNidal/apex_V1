@@ -6,7 +6,7 @@ from email_validator import validate_email, EmailNotValidError
 from datetime import datetime
 import os
 import re
-
+import MySQLdb.cursors
 # -------------------------------------------------
 # APP INIT
 # -------------------------------------------------
