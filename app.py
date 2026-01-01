@@ -24,13 +24,15 @@ app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB')
 app.config['MYSQL_PORT'] = int(os.environ.get('MYSQL_PORT', 3306))
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
-# SSL for Aiven (التعديل الصحيح والمضمون)
+# SSL for Aiven (الحل النهائي لخطأ Certificate Chain)
 if os.environ.get('MYSQL_HOST') and os.environ.get('MYSQL_HOST') != 'localhost':
     app.config['MYSQL_CUSTOM_OPTIONS'] = {
         "ssl": {
-            "ca": "/etc/ssl/certs/ca-certificates.crt"
+            "ssl_mode": "REQUIRED",
+            "fake_option_to_trigger_ssl": True # أحياناً تحتاجه بعض إصدارات المكتبة
         }
     }
+    # ملاحظة: حذفنا مسار الملف /etc/ssl/... لأنه يسبب تعارض مع شهادة Aiven
 
 mysql = MySQL(app)
 
