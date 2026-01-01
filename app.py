@@ -22,9 +22,10 @@ app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB', 'apex')
 app.config['MYSQL_PORT'] = int(os.environ.get('MYSQL_PORT', 3306)) 
 # هذا الكود يحاول استخدام شهادة النظام، وإذا فشل يتصل بدونها (للتأكد من عمل الموقع)
 try:
-    if os.environ.get('MYSQL_HOST'):
-        # جرب هذا الخيار أولاً وهو الأنسب لبيئة Linux في Render
+    if os.environ.get('MYSQL_HOST') and os.environ.get('MYSQL_HOST') != 'localhost':
+        # هذا المسار مخصص لسيرفرات Linux التي يستخدمها Render
         app.config['MYSQL_CUSTOM_OPTIONS'] = {"ssl": {"ca": "/etc/ssl/certs/ca-certificates.crt"}}
+        print("SSL configuration applied for Cloud DB.")
 except Exception as e:
     print(f"SSL Configuration Error: {e}")
 
