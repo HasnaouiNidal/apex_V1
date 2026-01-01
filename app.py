@@ -24,9 +24,13 @@ app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB')
 app.config['MYSQL_PORT'] = int(os.environ.get('MYSQL_PORT', 3306))
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
-# SSL for Aiven
+# SSL for Aiven (التعديل الصحيح والمضمون)
 if os.environ.get('MYSQL_HOST') and os.environ.get('MYSQL_HOST') != 'localhost':
-    app.config['MYSQL_SSL_CA'] = '/etc/ssl/certs/ca-certificates.crt'
+    app.config['MYSQL_CUSTOM_OPTIONS'] = {
+        "ssl": {
+            "ca": "/etc/ssl/certs/ca-certificates.crt"
+        }
+    }
 
 mysql = MySQL(app)
 
