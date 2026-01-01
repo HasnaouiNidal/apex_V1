@@ -28,6 +28,8 @@ try:
 except Exception as e:
     print(f"SSL Configuration Error: {e}")
 
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+
 # Upload Configurations
 app.config['PROFILE_UPLOAD_FOLDER'] = 'static/profile_pics'
 app.config['IMAGE_UPLOAD_FOLDER'] = 'static/images'
