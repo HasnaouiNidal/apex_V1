@@ -4,8 +4,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import MySQLdb.cursors
 import os
-import re  # للتحقق من الأنماط (Regex)
-from email_validator import validate_email, EmailNotValidError # مكتبة التحقق من الإيميل
+import re  # expression regulier 
+from email_validator import validate_email, EmailNotValidError 
 from datetime import datetime
 
 app = Flask(__name__)
@@ -13,13 +13,12 @@ app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'your_secret_key_here_local_only')
 
 # Database Configuration
-# Database Configuration
 app.config['MYSQL_HOST'] = os.environ.get('MYSQL_HOST', 'localhost')
 app.config['MYSQL_USER'] = os.environ.get('MYSQL_USER', 'root')
 app.config['MYSQL_PASSWORD'] = os.environ.get('MYSQL_PASSWORD', '')
 app.config['MYSQL_DB'] = os.environ.get('MYSQL_DB', 'apex')
 
-# <--- زيد هاد السطر ضروري باش Aiven يخدم
+# important line for avein
 app.config['MYSQL_PORT'] = int(os.environ.get('MYSQL_PORT', 3306)) 
 
 # Upload Configurations
@@ -29,11 +28,7 @@ app.config['IMAGE_UPLOAD_FOLDER'] = 'static/images'
 mysql = MySQL(app)
 
 def is_strong_password(password):
-    """
-    التحقق من قوة كلمة السر:
-    - 8 حروف على الأقل
-    - حرف كبير، حرف صغير، رقم، ورمز خاص
-    """
+    # password for check if the password os strong !
     if len(password) < 8:
         return False, "Password must be at least 8 characters long."
     if not re.search(r"[A-Z]", password):
@@ -90,7 +85,7 @@ def login():
             session['user_id'] = user['id'] 
             session['username'] = user['first_name']
             
-            # --- هذا هو السطر الجديد المهم جداً ---
+            # --- the new important line !---
             session['email'] = user['email'] 
             # --------------------------------------
             
@@ -108,7 +103,7 @@ def register():
         return redirect(url_for('profile'))
 
     if request.method == 'POST':
-        # 1. تنظيف المدخلات (Sanitization) لإزالة المسافات الزائدة
+        # Sanitization
         first_name = request.form.get('first_name', '').strip()
         last_name = request.form.get('last_name', '').strip()
         phone_number = request.form.get('phone_number', '').strip()
@@ -116,7 +111,7 @@ def register():
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_password')
 
-        # 2. التحقق من صحة الإيميل (Validation)
+        # Validation
         try:
             # يتأكد أن شكل الإيميل صحيح وأن الدومين موجود
             valid = validate_email(email, check_deliverability=True)
@@ -252,7 +247,7 @@ def add_member():
         return redirect(url_for('login'))
 
     # قائمة المدراء المسموح لهم فقط
-    ALLOWED_ADMINS = ['nidal@gmail.com', 'friend@gmail.com']
+    ALLOWED_ADMINS = ['nidalhasnaoui04@gmail.com', 'friend@gmail.com']
     
     if session.get('email') not in ALLOWED_ADMINS:
         flash("Access Denied! Only admins can add new members.", "danger")
@@ -323,7 +318,7 @@ def add_event():
 
     # ثانياً: قائمة "الأشخاص المهمين جداً" (VIP List)
     # غير هذه الإيميلات إلى إيميلك وإيميل صديقك الحقيقي
-    ALLOWED_ADMINS = ['nidal@gmail.com', 'friend@gmail.com']
+    ALLOWED_ADMINS = ['nidalhasnaoui04@gmail.com', 'friend@gmail.com']
     
     # نحضر الإيميل من الجلسة (Session)
     current_email = session.get('email')
@@ -424,7 +419,7 @@ def add_article():
         return redirect(url_for('login'))
 
     # قائمة المسموح لهم (نفس القائمة التي وضعناها في Events)
-    ALLOWED_ADMINS = ['nidal@gmail.com', 'friend@gmail.com']
+    ALLOWED_ADMINS = ['nidalhasnaoui04@gmail.com', 'friend@gmail.com']
     
     current_email = session.get('email')
     
