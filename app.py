@@ -64,24 +64,6 @@ def is_strong_password(password):
 # -------------------------------------------------
 # ROUTES
 # -------------------------------------------------
-def is_strong_password(password):
-    """
-    التحقق من قوة كلمة السر:
-    - 8 حروف على الأقل
-    - حرف كبير، حرف صغير، رقم، ورمز خاص
-    """
-    if len(password) < 8:
-        return False, "Password must be at least 8 characters long."
-    if not re.search(r"[A-Z]", password):
-        return False, "Password must contain at least one uppercase letter."
-    if not re.search(r"[a-z]", password):
-        return False, "Password must contain at least one lowercase letter."
-    if not re.search(r"[0-9]", password):
-        return False, "Password must contain at least one digit."
-    if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password):
-        return False, "Password must contain at least one special character."
-    return True, ""
-
 # --- PUBLIC ROUTES ---
 @app.route('/')
 def home():
@@ -288,7 +270,7 @@ def add_member():
         return redirect(url_for('login'))
 
     # قائمة المدراء المسموح لهم فقط
-    ALLOWED_ADMINS = ['nidal@gmail.com', 'friend@gmail.com']
+    ALLOWED_ADMINS = ['nidalhasnaoui04@gmail.com', 'khalidouisnaf@gmail.com']
     
     if session.get('email') not in ALLOWED_ADMINS:
         flash("Access Denied! Only admins can add new members.", "danger")
@@ -359,7 +341,7 @@ def add_event():
 
     # ثانياً: قائمة "الأشخاص المهمين جداً" (VIP List)
     # غير هذه الإيميلات إلى إيميلك وإيميل صديقك الحقيقي
-    ALLOWED_ADMINS = ['nidal@gmail.com', 'friend@gmail.com']
+    ALLOWED_ADMINS = ['nidalhasnaoui04@gmail.com', 'khalidouisnaf@gmail.com']
     
     # نحضر الإيميل من الجلسة (Session)
     current_email = session.get('email')
@@ -460,7 +442,7 @@ def add_article():
         return redirect(url_for('login'))
 
     # قائمة المسموح لهم (نفس القائمة التي وضعناها في Events)
-    ALLOWED_ADMINS = ['nidal@gmail.com', 'friend@gmail.com']
+    ALLOWED_ADMINS = ['nidalhasnaoui04@gmail.com', 'khalidouisnaf@gmail.com']
     
     current_email = session.get('email')
     
