@@ -45,8 +45,22 @@
                     <li class="nav-item">
                         <a class="nav-link {{ 'active' if request.endpoint == 'members' else '' }}" href="{{ url_for('members') }}">Our Team</a>
                     </li>
-                </ul>
-                
+
+                    {% if session.get('email') in ['nidalhasnaoui04@gmail.com', 'khalidouisnaf@gmail.com'] %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-danger fw-bold" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Admin Panel
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                                <li><a class="dropdown-item" href="{{ url_for('add_event') }}"><i class="fas fa-calendar-plus me-2"></i> Add Event</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('add_article') }}"><i class="fas fa-newspaper me-2"></i> Add Article</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ url_for('add_member') }}"><i class="fas fa-user-plus me-2"></i> Add Member</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                    </ul>
+                                
                 {% if session.get('loggedin') %}
                     <div class="d-flex align-items-center">
                         <a href="{{ url_for('profile') }}" class="btn btn-outline-dark ms-lg-3 me-2">
