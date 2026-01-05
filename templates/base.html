@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}APEX{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/IMG_0513.jpg') }}" type="image/jpg">
+    
+    {% block styles %}{% endblock %}
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+
+            <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">
+                <i class="fas fa-mountain me-2"></i>APEX
+                
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {{ 'active' if request.endpoint == 'home' else '' }}" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ 'active' if request.endpoint == 'events' else '' }}" href="{{ url_for('events') }}">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ 'active' if request.endpoint == 'articles' else '' }}" href="{{ url_for('articles') }}">Articles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ 'active' if request.endpoint == 'members' else '' }}" href="{{ url_for('members') }}">Our Team</a>
+                    </li>
+
+                    {% if session.get('email') in ['nidalhasnaoui04@gmail.com', 'khalidouisnaf@gmail.com'] %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-danger fw-bold" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Admin Panel
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                                <li><a class="dropdown-item" href="{{ url_for('add_event') }}"><i class="fas fa-calendar-plus me-2"></i> Add Event</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('add_article') }}"><i class="fas fa-newspaper me-2"></i> Add Article</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ url_for('add_member') }}"><i class="fas fa-user-plus me-2"></i> Add Member</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                    </ul>
+                <div id="google_translate_element" class="ms-lg-3 my-2 my-lg-0"></div>
+
+                <script type="text/javascript">
+                function googleTranslateElementInit() {
+                  new google.translate.TranslateElement({
+                    pageLanguage: 'en',
+                    includedLanguages: 'en,fr,ar', 
+                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                    autoDisplay: false
+                  }, 'google_translate_element');
+                }
+                </script>
+                <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                
+                <style>
+                    /* تحسين شكل القائمة المنسدلة */
+                    .goog-te-gadget-simple {
+                        background-color: transparent !important;
+                        border: 1px solid #ccc !important;
+                        border-radius: 20px !important;
+                        padding: 5px 10px !important;
+                    }
+                    .goog-te-gadget-simple .goog-te-menu-value span {
+                        color: #333 !important; 
+                        font-weight: bold;
+                    }
+                    /* إخفاء شريط جوجل العلوي */
+                    .goog-te-banner-frame.skiptranslate { display: none !important; } 
+                    body { top: 0px !important; }
+                </style>                
+                {% if session.get('loggedin') %}
+                    <div class="d-flex align-items-center">
+                        <a href="{{ url_for('profile') }}" class="btn btn-outline-dark ms-lg-3 me-2">
+                            <i class="fas fa-user-circle me-1"></i> Profile
+                        </a>
+                        <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+                    </div>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-primary ms-lg-3 px-4">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div id="flash-messages" class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1055;">
+                {% for category, message in messages %}
+                    <div class="toast show align-items-center text-white bg-{{ category }} border-0 mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                <i class="fas fa-info-circle me-2"></i> {{ message }}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}
+    {% endblock %}
+
+    <footer class="footer mt-5 pt-5 pb-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <h5 class="fw-bold text-brand">APEX Club</h5>
+                    <p class="text-white-50" style="max-width: 400px;">
+                        Making a difference, together. Join our community to learn, grow, and impact the world.
+                    </p>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="fw-bold">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{{ url_for('home') }}" class="text-white-50 text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="{{ url_for('articles') }}" class="text-white-50 text-decoration-none">Articles</a></li>
+                        <li class="mb-2"><a href="{{ url_for('members') }}" class="text-white-50 text-decoration-none">Our Team</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5 class="fw-bold">Follow Us</h5>
+                    <div class="d-flex gap-3 mt-3">
+                        <a href="https://www.facebook.com/share/1GHkZVU89F/?mibextid=wwXIfr" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        
+                        <a href="https://www.instagram.com/apexoncampus?igsh=NTdta2tmZmpjNTdx" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-secondary mt-4">
+            <div class="d-flex justify-content-between flex-wrap text-white-50">
+                <small>&copy; 2025 APEX Club. All Rights Reserved.</small>
+                <small>Designed by <span class="text-brand">Nidal</span></small>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: false,
+            mirror: false
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+            var toastList = toastElList.map(function (toastEl) {
+                return new bootstrap.Toast(toastEl, { delay: 4000 });
+            });
+            toastList.forEach(toast => toast.show());
+        });
+    </script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

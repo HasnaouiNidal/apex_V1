@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+
+{% block title %}APEX | Our Team{% endblock %}
+
+{% block content %}
+
+<style>
+    /* Badge Base Style */
+    .team-badge {
+        font-size: 0.7rem;
+        padding: 6px 12px;
+        border-radius: 50px;
+        color: white;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        white-space: nowrap;
+    }
+
+    /* Team Colors */
+    .team-board { background-color: #ffd33d; color: black; }
+    .team-media { background-color: #d73a49; }      
+    .team-communication { background-color: #6f42c1; } 
+    .team-content { background-color: #2a9d8f; }     
+    .team-organizing { background-color: #f77f00; } /* Orange for Organizing */
+    .team-it { background-color: #0366d6; }          
+    .team-volunteer { background-color: #6c757d; }   
+
+    /* Card Styling */
+    .member-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        background-color: white;
+    }
+    .member-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .member-img {
+        width: 130px;
+        height: 130px;
+        object-fit: cover;
+        border: 4px solid white;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    
+    /* Section Divider */
+    .section-divider {
+        width: 60px;
+        height: 4px;
+        background-color: #0d6efd;
+        display: inline-block;
+        border-radius: 2px;
+        margin-bottom: 30px;
+    }
+</style>
+
+<section class="section-padding bg-light" style="padding: 80px 0; min-height: 85vh;">
+    <div class="container">
+        
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-primary">Meet The Team</h2>
+            <p class="text-muted">The dedicated individuals behind APEX Club.</p>
+        </div>
+
+        <div class="mb-5 text-center">
+            <h3 class="fw-bold mb-1">The Board</h3>
+            <div class="section-divider"></div>
+            
+            <div class="row justify-content-center">
+                {% for member in members %}
+                    {% if member.team == 'Board' %}
+                        <div class="col-md-6 col-lg-3 mb-4">
+                            <div class="card member-card text-center p-4 h-100">
+                                <img src="{{ url_for('static', filename='uploads/profiles/' + member.profile_image) }}" 
+                                     class="rounded-circle member-img mx-auto mb-3" alt="{{ member.first_name }}">
+                                <h5 class="fw-bold mb-1">{{ member.first_name }} {{ member.last_name }}</h5>
+                                <p class="text-muted small mb-3">{{ member.role }}</p>
+                                <div><span class="team-badge team-board">Board</span></div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h3 class="fw-bold mb-1">Media Team</h3>
+            <div class="section-divider" style="background-color: #d73a49;"></div>
+            
+            <div class="row">
+                {% for member in members %}
+                    {% if member.team == 'Media' %}
+                        <div class="col-md-6 col-lg-3 mb-4">
+                            <div class="card member-card text-center p-4 h-100">
+                                <img src="{{ url_for('static', filename='uploads/profiles/' + member.profile_image) }}" 
+                                     class="rounded-circle member-img mx-auto mb-3" alt="{{ member.first_name }}">
+                                <h5 class="fw-bold mb-1">{{ member.first_name }} {{ member.last_name }}</h5>
+                                <p class="text-muted small mb-3">{{ member.role }}</p>
+                                <div><span class="team-badge team-media">Media</span></div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h3 class="fw-bold mb-1">Communication Team</h3>
+            <div class="section-divider" style="background-color: #6f42c1;"></div>
+            
+            <div class="row">
+                {% for member in members %}
+                    {% if member.team == 'Communication' %}
+                        <div class="col-md-6 col-lg-3 mb-4">
+                            <div class="card member-card text-center p-4 h-100">
+                                <img src="{{ url_for('static', filename='uploads/profiles/' + member.profile_image) }}" 
+                                     class="rounded-circle member-img mx-auto mb-3" alt="{{ member.first_name }}">
+                                <h5 class="fw-bold mb-1">{{ member.first_name }} {{ member.last_name }}</h5>
+                                <p class="text-muted small mb-3">{{ member.role }}</p>
+                                <div><span class="team-badge team-communication">Communication</span></div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h3 class="fw-bold mb-1">Content Development Team</h3>
+            <div class="section-divider" style="background-color: #2a9d8f;"></div>
+            
+            <div class="row">
+                {% for member in members %}
+                    {% if member.team == 'Content' %}
+                        <div class="col-md-6 col-lg-3 mb-4">
+                            <div class="card member-card text-center p-4 h-100">
+                                <img src="{{ url_for('static', filename='uploads/profiles/' + member.profile_image) }}" 
+                                     class="rounded-circle member-img mx-auto mb-3" alt="{{ member.first_name }}">
+                                <h5 class="fw-bold mb-1">{{ member.first_name }} {{ member.last_name }}</h5>
+                                <p class="text-muted small mb-3">{{ member.role }}</p>
+                                <div><span class="team-badge team-content">Content Development</span></div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h3 class="fw-bold mb-1">Organizing Committee</h3>
+            <div class="section-divider" style="background-color: #f77f00;"></div> 
+            <div class="row">
+                {% for member in members %}
+                    {% if member.team == 'Organizing' %}
+                        <div class="col-md-6 col-lg-3 mb-4">
+                            <div class="card member-card text-center p-4 h-100">
+                                <img src="{{ url_for('static', filename='uploads/profiles/' + member.profile_image) }}" 
+                                     class="rounded-circle member-img mx-auto mb-3" alt="{{ member.first_name }}">
+                                <h5 class="fw-bold mb-1">{{ member.first_name }} {{ member.last_name }}</h5>
+                                <p class="text-muted small mb-3">{{ member.role }}</p>
+                                
+                                <div>
+                                    <span class="team-badge team-organizing">Organizing Committee</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="mb-5">
+            <h3 class="fw-bold mb-1">IT & Technical Team</h3>
+            <div class="section-divider" style="background-color: #0366d6;"></div>
+            
+            <div class="row">
+                {% for member in members %}
+                    {% if member.team == 'IT' %}
+                        <div class="col-md-6 col-lg-3 mb-4">
+                            <div class="card member-card text-center p-4 h-100">
+                                <img src="{{ url_for('static', filename='uploads/profiles/' + member.profile_image) }}" 
+                                     class="rounded-circle member-img mx-auto mb-3" alt="{{ member.first_name }}">
+                                <h5 class="fw-bold mb-1">{{ member.first_name }} {{ member.last_name }}</h5>
+                                <p class="text-muted small mb-3">{{ member.role }}</p>
+                                <div><span class="team-badge team-it">IT / Dev</span></div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

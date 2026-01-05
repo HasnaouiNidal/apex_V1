@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Add New Member{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Add New Member (Secret Page)</h4>
+                </div>
+                <div class="card-body">
+                    
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <form action="{{ url_for('add_member') }}" method="POST" enctype="multipart/form-data">
+                        
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label>First Name</label>
+                                <input type="text" name="first_name" class="form-control" required>
+                            </div>
+                            <div class="col">
+                                <label>Last Name</label>
+                                <input type="text" name="last_name" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label>Email (Must be unique)</label>
+                                <input type="email" name="email" class="form-control" required>
+                            </div>
+                            <div class="col">
+                                <label>Phone</label>
+                                <input type="text" name="phone_number" class="form-control" value="0600000000">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label>Role (e.g., President, Designer)</label>
+                                <input type="text" name="role" class="form-control" placeholder="Member" required>
+                            </div>
+                            
+                            <div class="col">
+                                <label>Team</label>
+                                <select name="team" class="form-select" required>
+                                    <option value="Board">Board (President, Vice, Secretary)</option>
+                                    
+                                    <option value="Organizing">Organizing Committee</option>
+                                    <option value="Content">Content Development</option>
+                                    <option value="Media">Media Team</option>
+                                    <option value="Communication">Communication Team</option>
+                                    
+                                    <option value="IT">IT Team</option>
+                                    <option value="Volunteer">Volunteer (Simple Member)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label>Profile Picture</label>
+                            <input type="file" name="profile_image" class="form-control" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 py-2 fw-bold">Add Member & Next</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

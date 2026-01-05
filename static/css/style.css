@@ -1,0 +1,255 @@
+:root {
+  --primary-green: #10B981;
+  --secondary-blue: #1E293B;
+  --dark-slate: #0f172a;
+  --accent-gold: #FFD54F;
+  --soft-green-bg: #F0FAF7;
+  --white: #FFFFFF;
+  --text-color: #334155;
+  --light-text: #E2E8F0;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-color);
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: var(--secondary-blue);
+}
+
+/* New Utility Class for your Green Text */
+.text-brand {
+    color: var(--primary-green) !important;
+}
+
+.section-padding {
+  padding: 100px 0;
+}
+
+.card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+.card-glass {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-primary {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+    border-radius: 50px;
+    padding: 12px 35px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #059669;
+    border-color: #059669;
+}
+
+.btn-outline-light {
+    border-radius: 50px;
+    padding: 10px 30px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Navbar Branding */
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--primary-green) !important;
+}
+
+.navbar .nav-link {
+    font-weight: 500;
+    color: var(--secondary-blue);
+    margin: 0 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.navbar .nav-link:hover, .navbar .nav-link.active {
+    color: var(--primary-green);
+}
+
+/* Enhanced Footer */
+.footer {
+    background-color: var(--dark-slate); /* Uses your custom dark variable */
+    color: var(--light-text);
+    border-top: 4px solid var(--primary-green); /* Nice accent line */
+    margin-top: auto;
+}
+
+.footer h5 {
+    color: var(--white);
+    margin-bottom: 1.2rem;
+}
+
+.footer a {
+    color: var(--white);
+    text-decoration: none;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.footer a:hover {
+    opacity: 1;
+    color: var(--primary-green) !important;
+}
+
+/* Social Icons Style */
+.footer .social-icon {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    color: var(--white);
+    margin-right: 5px;
+}
+
+.footer .social-icon:hover {
+    background: var(--primary-green);
+    transform: translateY(-3px);
+}
+
+img {
+    object-fit: cover;
+}
+
+.hero-section {
+    position: relative;
+    color: var(--white);
+    min-height: 90.1vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-image: url("../images/hero_pic.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.hero-section .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    opacity: 0.4;
+    z-index: 1;
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: var(--primary-green);
+}
+
+.form-floating > .form-control:focus ~ label {
+    color: var(--primary-green);
+}
+/* Fix for Recent Work Card Images */
+.recent-work-card .card-img-top {
+    height: 250px;       /* Forces all images to be the same height */
+    width: 100%;         /* Ensures full width */
+    object-fit: cover;   /* Crops the image to fit the box without distorting it */
+    object-position: center; /* Centers the image content */
+}
+/* --- Events Page Styling --- */
+
+/* Smaller Header for internal pages */
+.page-header {
+    padding-top: 140px; /* Account for fixed navbar */
+    padding-bottom: 80px;
+}
+
+/* Event Card Hover Effect */
+.event-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #fff;
+}
+
+.event-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+}
+
+/* Image scaling inside card on hover */
+.event-card .card-img-top {
+    height: 240px; /* Fixed height for consistency */
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.event-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+/* Date Badge Style */
+.event-date {
+    min-width: 60px;
+    line-height: 1.2;
+    z-index: 10;
+}
+
+/* Button Outline Primary Customization to match Green */
+.btn-outline-primary {
+    color: var(--primary-green);
+    border-color: var(--primary-green);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+    color: #fff;
+}
+/* Toast Animations */
+@keyframes slideInRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+#flash-messages .toast {
+    animation: slideInRight 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Match Alerts to Theme */
+.bg-success {
+    background-color: var(--primary-green) !important;
+}
+
+.bg-danger {
+    background-color: #EF4444 !important;
+}

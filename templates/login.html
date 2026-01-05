@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}APEX | Login{% endblock %}
+
+{% block content %}
+  <section class="d-flex align-items-center justify-content-center bg-white" style="min-height: 80vh; padding: 50px 0;">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-5 col-md-8">
+          <div class="card p-4 shadow-sm border-0"> <div class="card-body">
+              <h3 class="text-center mb-4 fw-bold">Member Login</h3>
+              
+              <form action="{{ url_for('login') }}" method="POST">
+  
+                  <div class="form-floating mb-3">
+                      <input type="email" class="form-control" name="email" id="floatingInput" placeholder="name@example.com" required>
+                      <label for="floatingInput">Email address</label>
+                  </div>
+
+                  <div class="form-floating mb-3">
+                      <input type="password" class="form-control" name="password" id="floatingPassword" placeholder="Password" required>
+                      <label for="floatingPassword">Password</label>
+                  </div>
+
+                  <div class="d-grid">
+                      <button type="submit" class="btn btn-primary py-2">Login</button>
+                  </div>
+              </form>
+
+              <div class="text-center mt-3">
+                <small>Don't have an account? <a href="{{ url_for('register') }}" style="color: var(--bs-primary); text-decoration: none;">Register here</a></small>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

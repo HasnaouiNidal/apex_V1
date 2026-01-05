@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}APEX | Our Events{% endblock %}
+
+{% block content %}
+
+<header class="position-relative w-100 d-flex align-items-center justify-content-center" 
+        style="min-height: 450px; margin-top: -80px; padding-top: 100px; background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.65)), url('{{ url_for('static', filename='images/memebers.jpeg') }}') center center/cover;">
+    
+    <div class="container text-center text-white position-relative" style="z-index: 2;">
+        
+        <span class="badge mb-3 rounded-pill px-4 py-2 shadow-lg" 
+              style="background-color: #FFD54F; color: #1e293b; font-size: 0.9rem; letter-spacing: 1px; font-weight: 700; text-transform: uppercase;">
+            Active Community
+        </span>
+        
+        <h1 class="display-3 fw-bold mb-3 text-white" style="color: #ffffff !important; text-shadow: 0 4px 15px rgba(0,0,0,0.3);" data-aos="zoom-in">
+            Our Events & Activities
+        </h1>
+        
+        <p class="lead mx-auto text-white" style="max-width: 600px; font-weight: 300; color: #f1f5f9 !important; text-shadow: 0 2px 10px rgba(0,0,0,0.3);" data-aos="fade-up">
+            Memories of the change we are making together.
+        </p>
+    </div>
+
+    <div class="position-absolute bottom-0 start-0 w-100" 
+         style="height: 150px; background: linear-gradient(to top, #ffffff 0%, transparent 100%); pointer-events: none;">
+    </div>
+</header>
+
+<section class="section-padding pt-4">
+    <div class="container">
+        
+        <div class="row mb-5 justify-content-center" style="position: relative; z-index: 10;" data-aos="fade-up">
+            <div class="col-auto bg-white shadow-sm rounded-pill p-2 border">
+                <button class="filter-btn btn rounded-pill btn-dark px-4 py-2 m-1 active" data-filter="all">All Events</button>
+                <button class="filter-btn btn rounded-pill btn-light text-muted px-4 py-2 m-1" data-filter="Social">Social</button>
+                <button class="filter-btn btn rounded-pill btn-light text-muted px-4 py-2 m-1" data-filter="Cultural">Cultural</button>
+                <button class="filter-btn btn rounded-pill btn-light text-muted px-4 py-2 m-1" data-filter="Recreational">Recreational</button>
+            </div>
+        </div>
+
+        <div class="row g-4" id="events-container">
+            {% for event in events %}
+            <div class="col-lg-4 col-md-6 event-item" 
+                 data-category="{{ event.category }}" 
+                 data-aos="fade-up" 
+                 data-aos-delay="{{ loop.index * 100 }}">
+                
+                <div class="card h-100 event-card border-0 shadow-sm overflow-hidden hover-lift">
+                    
+                    <div class="position-relative">
+                        <img src="{{ url_for('static', filename='images/' + event.image) }}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="{{ event.title }}">
+                        
+                        <div class="bg-white shadow-sm p-2 text-center rounded position-absolute top-0 end-0 m-3" style="min-width: 60px; opacity: 0.95;">
+                            <span class="d-block fw-bold text-brand small">{{ event.date_str.split(',')[0].split(' ')[0] }}</span> 
+                            <span class="d-block h4 fw-bold mb-0 text-dark">{{ event.date_str.split(' ')[1].replace(',', '') }}</span> 
+                        </div>
+                        
+                        <span class="badge position-absolute bottom-0 start-0 m-3 rounded-pill px-3 py-2 
+                            {% if event.category == 'Social' %} bg-success 
+                            {% elif event.category == 'Cultural' %} bg-warning text-dark 
+                            {% else %} bg-info text-white {% endif %}">
+                            {{ event.category }}
+                        </span>
+                    </div>
+
+                    <div class="card-body p-4 d-flex flex-column">
+                        <h4 class="card-title fw-bold mb-3">{{ event.title }}</h4>
+                        
+                        <p class="card-text text-muted mb-4 small">
+                            {{ event.description }}
+                        </p>
+                        
+                        <div class="mt-auto">
+                            <a href="{{ url_for('event_detail', id=event.id) }}" class="btn btn-outline-primary w-100 rounded-pill">
+                                View Details <i class="fas fa-arrow-right ms-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            {% else %}
+            <div class="col-12 text-center py-5">
+                <div class="p-5 bg-white rounded shadow-sm">
+                    <i class="fas fa-calendar-times fa-4x text-muted mb-3"></i>
+                    <h3 class="fw-bold text-secondary">No Events Yet</h3>
+                    <p class="text-muted">We are planning something big! Check back soon.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div id="no-events-msg" class="text-center py-5 d-none">
+            <h4 class="text-muted">No events found in this category.</h4>
+        </div>
+
+    </div>
+</section>
+
+<section class="section-padding" style="background-color: var(--secondary-blue);">
+    <div class="container text-center text-white">
+        <h2 class="mb-3 text-white" style="color: white !important;">Have an Idea for an Event?</h2>
+        <p class="mb-4 opacity-75 text-white">We are always open to new initiatives to help the community.</p>
+        <a href="#" class="btn btn-warning btn-lg rounded-pill px-5 text-dark fw-bold">Contact Us</a>
+    </div>
+</section>
+
+<style>
+    .hover-lift {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hover-lift:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+    }
+    .filter-btn.active {
+        background-color: var(--primary-green) !important;
+        border-color: var(--primary-green) !important;
+        color: white !important;
+    }
+    .filter-btn:not(.active):hover {
+        background-color: #f8f9fa;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const events = document.querySelectorAll('.event-item');
+    const noEventsMsg = document.getElementById('no-events-msg');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            filterButtons.forEach(btn => {
+                btn.classList.remove('active', 'btn-dark');
+                btn.classList.add('btn-light', 'text-muted');
+            });
+            
+            button.classList.add('active', 'btn-dark');
+            button.classList.remove('btn-light', 'text-muted');
+
+            const filterValue = button.getAttribute('data-filter');
+            let visibleCount = 0;
+
+            events.forEach(event => {
+                const category = event.getAttribute('data-category');
+                if (filterValue === 'all' || category === filterValue) {
+                    event.classList.remove('d-none');
+                    event.classList.add('animate__animated', 'animate__fadeIn');
+                    visibleCount++;
+                } else {
+                    event.classList.add('d-none');
+                }
+            });
+
+            if (visibleCount === 0) {
+                noEventsMsg.classList.remove('d-none');
+            } else {
+                noEventsMsg.classList.add('d-none');
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

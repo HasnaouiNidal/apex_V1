@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}APEX | Knowledge Hub{% endblock %}
+
+{% block content %}
+
+<header class="position-relative w-100 d-flex align-items-center justify-content-center" 
+        style="min-height: 450px; margin-top: -80px; padding-top: 100px; background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.65)), url('{{ url_for('static', filename='images/memebers.jpeg') }}') center center/cover;">
+    
+    <div class="container text-center text-white position-relative" style="z-index: 2;">
+        
+        <span class="badge bg-primary mb-3 rounded-pill px-3 py-2 shadow-sm" style="font-size: 0.9rem; letter-spacing: 1px;">
+            ENS Community
+        </span>
+        
+        <h1 class="display-3 fw-bold mb-3 text-white" style="color: #ffffff !important; text-shadow: 0 4px 15px rgba(0,0,0,0.3);" data-aos="zoom-in">
+            Knowledge Hub
+        </h1>
+        
+        <p class="lead mx-auto text-white" style="max-width: 600px; font-weight: 300; color: #f1f5f9 !important; text-shadow: 0 2px 10px rgba(0,0,0,0.3);" data-aos="fade-up">
+            A space for sharing scientific research, literature, and student insights.
+        </p>
+    </div>
+
+    <div class="position-absolute bottom-0 start-0 w-100" 
+         style="height: 150px; background: linear-gradient(to top, #ffffff 0%, transparent 100%); pointer-events: none;">
+    </div>
+</header>
+
+<section class="section-padding pt-4">
+    <div class="container">
+        
+        <div class="row mb-5 justify-content-center" style="position: relative; z-index: 10;" data-aos="fade-up">
+            <div class="col-auto bg-white shadow-sm rounded-pill p-2 border">
+                <button class="filter-btn btn rounded-pill btn-dark px-4 py-2 m-1 active" data-filter="all">All Subjects</button>
+                <button class="filter-btn btn rounded-pill btn-light text-muted px-4 py-2 m-1" data-filter="math-group">Math & Info</button>
+                <button class="filter-btn btn rounded-pill btn-light text-muted px-4 py-2 m-1" data-filter="science-group">Sciences</button>
+                <button class="filter-btn btn rounded-pill btn-light text-muted px-4 py-2 m-1" data-filter="humanities-group">Humanities</button>
+            </div>
+        </div>
+
+        <div class="row g-4" id="articles-container">
+            {% for article in articles %}
+            <div class="col-lg-4 col-md-6 article-item" 
+                 data-subject="{{ article.subject }}" 
+                 data-aos="fade-up" 
+                 data-aos-delay="100">
+                
+                <div class="card h-100 border-0 shadow-sm article-card hover-lift">
+                    <div class="position-relative overflow-hidden" style="border-radius: 1rem 1rem 0 0;">
+                        <img src="{{ url_for('static', filename='images/' + article.image) }}" class="card-img-top" style="height: 240px; object-fit: cover;" alt="{{ article.title }}">
+                        
+                        <span class="position-absolute top-0 end-0 m-3 badge rounded-pill 
+                            {% if 'Math' in article.subject or 'Computer' in article.subject %} bg-primary
+                            {% elif 'Physics' in article.subject %} bg-danger
+                            {% elif 'Life' in article.subject %} bg-success
+                            {% elif 'Islam' in article.subject or 'Arabic' in article.subject %} bg-warning text-dark
+                            {% else %} bg-secondary text-white {% endif %}">
+                            {{ article.subject }}
+                        </span>
+                    </div>
+
+                    <div class="card-body p-4 d-flex flex-column">
+                        <div class="mb-2 text-muted small">
+                            <i class="far fa-calendar me-1"></i> {{ article.created_at.strftime('%Y-%m-%d') }} 
+                            <span class="mx-2">•</span> 
+                            <i class="far fa-user me-1"></i> {{ article.author }}
+                        </div>
+                        
+                        <h4 class="card-title fw-bold mb-3">{{ article.title }}</h4>
+                        <p class="card-text text-muted mb-4">{{ article.summary }}</p>
+                        
+                        <div class="mt-auto">
+                            <a href="{{ url_for('article_detail_dynamic', id=article.id) }}" class="fw-bold text-decoration-none text-brand">
+                                Read Article <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-12 text-center py-5">
+                <h3 class="text-muted">No articles published yet.</h3>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div id="no-results-msg" class="text-center py-5 d-none">
+            <h4 class="text-muted">No articles found in this category yet.</h4>
+        </div>
+
+    </div>
+</section>
+
+<style>
+    .hover-lift {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .hover-lift:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+    }
+    /* Active Button Style */
+    .filter-btn.active {
+        background-color: var(--primary-green) !important; 
+        color: white !important;
+        border-color: var(--primary-green) !important;
+    }
+    
+    /* Make inactive buttons subtle */
+    .filter-btn:not(.active):hover {
+        background-color: #f1f5f9;
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const articles = document.querySelectorAll('.article-item');
+    const noResultsMsg = document.getElementById('no-results-msg');
+
+    // Define which subjects belong to which group
+    const groups = {
+        'math-group': ['Mathematics', 'Computer Science'],
+        'science-group': ['Physics & Chemistry', 'Life & Earth Sciences'],
+        'humanities-group': ['Arabic Literature', 'Islamic Studies', 'French', 'English', 'History & Geography', 'Philosophy', 'Education Science']
+    };
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // 1. Visual: Update active button
+            filterButtons.forEach(btn => {
+                btn.classList.remove('active', 'btn-dark');
+                btn.classList.add('btn-light', 'text-muted');
+            });
+            
+            button.classList.add('active', 'btn-dark'); // Highlight clicked
+            button.classList.remove('btn-light', 'text-muted');
+
+            const filterValue = button.getAttribute('data-filter');
+            let visibleCount = 0;
+
+            // 2. Logic: Show/Hide articles
+            articles.forEach(article => {
+                const subject = article.getAttribute('data-subject');
+                
+                if (filterValue === 'all') {
+                    article.classList.remove('d-none');
+                    visibleCount++;
+                } else {
+                    if (groups[filterValue] && groups[filterValue].includes(subject)) {
+                        article.classList.remove('d-none');
+                        article.classList.add('animate__animated', 'animate__fadeIn');
+                        visibleCount++;
+                    } else {
+                        article.classList.add('d-none');
+                    }
+                }
+            });
+
+            // 3. Show "No Results" message
+            if (visibleCount === 0) {
+                noResultsMsg.classList.remove('d-none');
+            } else {
+                noResultsMsg.classList.add('d-none');
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

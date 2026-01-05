@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Admin | Add Article{% endblock %}
+
+{% block content %}
+<div class="container section-padding">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center py-4" style="background: var(--secondary-blue) !important;">
+                    <h3><i class="fas fa-pen-nib me-2"></i>Publish New Article</h3>
+                </div>
+                <div class="card-body p-5">
+                    
+                    <form action="{{ url_for('add_article') }}" method="POST" enctype="multipart/form-data">
+                        
+                        <div class="row">
+                            <div class="col-md-8 mb-4">
+                                <label class="form-label fw-bold">Article Title</label>
+                                <input type="text" name="title" class="form-control" placeholder="Ex: The Beauty of Mathematics" required>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <label class="form-label fw-bold">Author Name</label>
+                                <input type="text" name="author" class="form-control" value="{{ session.username }}" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Academic Subject (Category)</label>
+                            <select name="subject" class="form-select" required>
+                                <option disabled selected>Select the branch/subject...</option>
+                                <option value="Mathematics">Mathematics (Math)</option>
+                                <option value="Physics & Chemistry">Physics & Chemistry (PC)</option>
+                                <option value="Life & Earth Sciences">Life & Earth Sciences (SVT)</option>
+                                <option value="Computer Science">Computer Science (Info)</option>
+                                <option value="Arabic Literature">Arabic Literature</option>
+                                <option value="Islamic Studies">Islamic Studies</option>
+                                <option value="French">French</option>
+                                <option value="English">English</option>
+                                <option value="History & Geography">History & Geography</option>
+                                <option value="Philosophy">Philosophy</option>
+                                <option value="Education Science">Education Science</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Cover Image</label>
+                            <input type="file" name="article_image" class="form-control" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Short Summary</label>
+                            <textarea name="summary" class="form-control" rows="2" placeholder="A quick hook to display on the card..." required></textarea>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Full Content</label>
+                            <textarea name="content" class="form-control" rows="10"></textarea>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Publish Article</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.tiny.cloud/1/n8rmskjt0bjpc15y1txddgo33y2edf3dbzi2d4vircwbwfbw/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script>
+  tinymce.init({
+    selector: 'textarea[name="content"]', // Targets the content area
+    height: 600,
+    menubar: true,
+    plugins: [
+      'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+      'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+      'insertdatetime', 'media', 'table', 'help', 'wordcount'
+    ],
+    toolbar: 'undo redo | blocks | ' +
+      'bold italic forecolor | alignleft aligncenter ' +
+      'alignright alignjustify | bullist numlist outdent indent | ' +
+      'removeformat | image media table code | help',
+    
+    /* DRAG AND DROP IMAGE HANDLER */
+    image_title: true,
+    automatic_uploads: true,
+    file_picker_types: 'image',
+    file_picker_callback: (cb, value, meta) => {
+      const input = document.createElement('input');
+      input.setAttribute('type', 'file');
+      input.setAttribute('accept', 'image/*');
+
+      input.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+
+        const reader = new FileReader();
+        reader.addEventListener('load', () => {
+          const id = 'blobid' + (new Date()).getTime();
+          const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+          const base64 = reader.result.split(',')[1];
+          const blobInfo = blobCache.create(id, file, base64);
+          blobCache.add(blobInfo);
+
+          cb(blobInfo.blobUri(), { title: file.name });
+        });
+        reader.readAsDataURL(file);
+      });
+
+      input.click();
+    },
+    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
+  });
+</script>
+{% endblock %}

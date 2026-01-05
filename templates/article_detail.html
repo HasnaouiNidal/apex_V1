@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}APEX | {{ article.title }}{% endblock %}
+
+{% block content %}
+
+<header class="position-relative w-100" style="height: 60vh;">
+    <div class="position-absolute top-0 start-0 w-100 h-100" 
+         style="background: url('{{ url_for('static', filename='images/' + article.image) }}') no-repeat center center/cover;">
+    </div>
+    
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(rgba(15, 23, 42, 0.6), rgba(15, 23, 42, 0.9));"></div>
+
+    <div class="container h-100 d-flex flex-column justify-content-center position-relative z-2 text-center">
+        <div data-aos="zoom-in">
+            <span class="badge bg-warning text-dark mb-3 px-3 py-2 rounded-pill shadow-sm">{{ article.subject }}</span>
+            
+            <h1 class="display-3 fw-bold mb-3" style="color: #ffffff !important; text-shadow: 0 4px 15px rgba(0,0,0,0.6);">
+                {{ article.title }}
+            </h1>
+            
+            <div class="d-flex justify-content-center align-items-center gap-4" style="color: #e2e8f0 !important; font-weight: 500; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+                <span><i class="fas fa-user-edit me-2"></i>{{ article.author }}</span>
+                <span><i class="far fa-clock me-2"></i>{{ article.created_at.strftime('%B %d, %Y') }}</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="section-padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <div class="d-flex justify-content-between align-items-center mb-5 border-bottom pb-3">
+                    <span class="fw-bold text-muted">Share this knowledge:</span>
+                    <div>
+                        <a href="#" class="btn btn-outline-primary btn-sm rounded-circle me-1"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="btn btn-outline-info btn-sm rounded-circle me-1"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="btn btn-outline-success btn-sm rounded-circle"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <div class="article-content" style="font-size: 1.15rem; line-height: 1.9; color: var(--text-color);">
+                    {{ article.content | safe }}
+                </div>
+
+                <div class="mt-5 pt-5 border-top d-flex justify-content-between">
+                    <a href="{{ url_for('articles') }}" class="btn btn-outline-dark rounded-pill">
+                        <i class="fas fa-arrow-left me-2"></i> Back to Hub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
